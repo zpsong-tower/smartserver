@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+
+    <display-name>smartservice</display-name>
+
+    <servlet>
+        <servlet-name>smartserviceApiServlet</servlet-name>
+        <!--容器-->
+        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>jersey.config.server.provider.packages</param-name>
+            <!--映射的包名，用于搜索处理类-->
+            <param-value>com.tower.smartservice.service</param-value>
+        </init-param>
+        <init-param>
+            <param-name>javax.ws.rs.Application</param-name>
+            <param-value>com.tower.smartservice.Application</param-value>
+        </init-param>
+
+        <!--是否在web应用程序启动的时候就加载这个servlet，(实例化并调用其init方法)-->
+        <!--如果该元素的值为负数或者没有设置，则容器会当Servlet被请求时再加载-->
+        <!--如果值为正整数或者0时，表示容器在应用启动时就加载并初始化这个servlet，值越小，servlet的优先级越高，就越先被加载-->
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <!--映射-->
+    <servlet-mapping>
+        <servlet-name>smartserviceApiServlet</servlet-name>
+        <!--访问路径-->
+        <url-pattern>/api/*</url-pattern>
+    </servlet-mapping>
+</web-app>
