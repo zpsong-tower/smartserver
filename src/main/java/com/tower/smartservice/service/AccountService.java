@@ -1,6 +1,6 @@
 package com.tower.smartservice.service;
 
-import com.tower.smartservice.bean.User;
+import com.tower.smartservice.bean.db.UserEntity;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -34,8 +34,8 @@ public class AccountService {
 	@Path("/login")
 	@Consumes(MediaType.APPLICATION_JSON) // 请求格式 JSON
 	@Produces(MediaType.APPLICATION_JSON) // 返回格式 JSON
-	public User post() {
-		User user = new User();
+	public UserEntity post() {
+		UserEntity user = new UserEntity();
 		user.setName("tower");
 		user.setSex(1);
 		return user;
