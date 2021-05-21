@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE hibernate-configuration PUBLIC
-    "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
     <session-factory>
         <!-- 数据库链接驱动 -->
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <!--链接地址用户名密码 -->
-        <property name="connection.url">jdbc:mysql://127.0.0.1:3306/DB?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false</property>
+        <property name="connection.url">jdbc:mysql://127.0.0.1:3306/DB_SMARTLINE?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false</property>
         <property name="connection.username">root</property>
         <property name="connection.password">123456</property>
 
@@ -48,6 +48,21 @@
         <!-- update: 这个操作启动的时候会去检查schema是否一致，如果不一致会做scheme更新 -->
         <!-- validate: 启动时验证现有schema与你配置的hibernate是否一致，如果不一致就抛出异常，并不做更新 -->
         <property name="hbm2ddl.auto">update</property>
+
+        <mapping package="com.tower.smartservice.bean.db"
+                 class="com.tower.smartservice.bean.db.UserEntity"/>
+        <mapping package="com.tower.smartservice.bean.db"
+                 class="com.tower.smartservice.bean.db.UserFollowEntity"/>
+        <mapping package="com.tower.smartservice.bean.db"
+                 class="com.tower.smartservice.bean.db.GroupEntity"/>
+        <mapping package="com.tower.smartservice.bean.db"
+                 class="com.tower.smartservice.bean.db.GroupMemberEntity"/>
+        <mapping package="com.tower.smartservice.bean.db"
+                 class="com.tower.smartservice.bean.db.MessageEntity"/>
+        <mapping package="com.tower.smartservice.bean.db"
+                 class="com.tower.smartservice.bean.db.PushHistoryEntity"/>
+        <mapping package="com.tower.smartservice.bean.db"
+                 class="com.tower.smartservice.bean.db.ApplyEntity"/>
 
     </session-factory>
 </hibernate-configuration>

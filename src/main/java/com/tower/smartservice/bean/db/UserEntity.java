@@ -72,7 +72,7 @@ public class UserEntity {
 
 	// 最后收到消息的时间
 	@Column
-	private LocalDateTime lastReceivedAt = LocalDateTime.now();
+	private LocalDateTime lastReceivedAt;
 
 	// 创建时间
 	@CreationTimestamp

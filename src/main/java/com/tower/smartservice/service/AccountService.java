@@ -1,6 +1,7 @@
 package com.tower.smartservice.service;
 
-import com.tower.smartservice.bean.db.UserEntity;
+import com.tower.smartservice.bean.api.account.RegisterModel;
+import com.tower.smartservice.bean.card.UserCard;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -13,31 +14,20 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("/account")
 public class AccountService {
-
 	/**
-	 * http://localhost:8080/Gradle___smartservice___smartservice_1_0_SNAPSHOT_war/api/account/login
+	 * 注册POST
+	 * http://localhost:8080/Gradle___smartservice___smartservice_1_0_SNAPSHOT_war/api/account/register
 	 *
-	 * @return "hello world!"
-	 */
-	@GET
-	@Path("/login")
-	public String get() {
-		return "hello world!";
-	}
-
-	/**
-	 * http://localhost:8080/Gradle___smartservice___smartservice_1_0_SNAPSHOT_war/api/account/login
-	 *
-	 * @return {"name": "tower", "sex": 1}
+	 * @param model RegisterModel
+	 * @return UserEntity
 	 */
 	@POST
-	@Path("/login")
+	@Path("/register")
 	@Consumes(MediaType.APPLICATION_JSON) // 请求格式 JSON
 	@Produces(MediaType.APPLICATION_JSON) // 返回格式 JSON
-	public UserEntity post() {
-		UserEntity user = new UserEntity();
-		user.setName("tower");
-		user.setSex(1);
-		return user;
+	public UserCard register(RegisterModel model) {
+		UserCard userCard = new UserCard();
+		userCard.setName(model.getName());
+		return userCard;
 	}
 }
