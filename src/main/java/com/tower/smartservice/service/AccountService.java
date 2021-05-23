@@ -1,7 +1,8 @@
 package com.tower.smartservice.service;
 
 import com.tower.smartservice.bean.api.account.RegisterModel;
-import com.tower.smartservice.bean.card.UserCard;
+import com.tower.smartservice.bean.response.base.ResponseBuilder;
+import com.tower.smartservice.bean.response.base.ResponseModel;
 import com.tower.smartservice.bean.db.UserEntity;
 import com.tower.smartservice.factory.UserFactory;
 
@@ -27,16 +28,29 @@ public class AccountService {
 	@Path("/register")
 	@Consumes(MediaType.APPLICATION_JSON) // 请求格式 JSON
 	@Produces(MediaType.APPLICATION_JSON) // 返回格式 JSON
-	public UserCard register(RegisterModel model) {
-		if (model == null) {
-			return null;
+	public ResponseModel register(RegisterModel model) {
+		if (!RegisterModel.isAvailable(model)) {
+			// 参数非法
+			return ResponseBuilder.paramIllegal();
 		}
-		UserEntity userEntity = UserFactory.register(model.getPhone(), model.getPassword(), model.getName());
-		if (userEntity == null) {
-			return null;
+		UserEntity tempUser;
+		tempUser = UserFactory.findByPhone(model.getPhone());
+		if (tempUser != null) {
+			// 手机号已存在
+			return ResponseBuilder.paramPhoneExist();
 		}
-		UserCard userCard = new UserCard();
-		userCard.setName(userEntity.getName());
-		return userCard;
+		tempUser = UserFactory.findByName(model.getName());
+		if (tempUser != null) {
+			// 用户名已存在
+			return ResponseBuilder.paramNameExist();
+		}
+		tempUser = UserFactory.register(model.getPhone(), model.getPassword(), model.getName());
+		if (tempUser == null) {
+			// 未知错误
+			return ResponseBuilder.unknownError();
+		}
+
+		// 注册成功
+		return ResponseBuilder.success();
 	}
 }

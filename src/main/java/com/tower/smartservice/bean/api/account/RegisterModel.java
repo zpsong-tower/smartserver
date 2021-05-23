@@ -1,6 +1,7 @@
 package com.tower.smartservice.bean.api.account;
 
 import com.google.gson.annotations.Expose;
+import com.tower.smartservice.utils.TextUtil;
 
 /**
  * 注册Model
@@ -43,5 +44,18 @@ public class RegisterModel {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	/**
+	 * 数据格式校验
+	 *
+	 * @param model RegisterModel
+	 * @return 是否可用
+	 */
+	public static boolean isAvailable(RegisterModel model) {
+		return model != null
+				&& !TextUtil.isEmpty(model.getPhone())
+				&& !TextUtil.isEmpty(model.getPassword())
+				&& !TextUtil.isEmpty(model.getName());
 	}
 }

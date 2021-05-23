@@ -3,7 +3,8 @@ package com.tower.smartservice.factory;
 import com.tower.smartservice.bean.db.UserEntity;
 import com.tower.smartservice.utils.HibUtil;
 import com.tower.smartservice.utils.TextUtil;
-import org.hibernate.Session;
+
+import javax.annotation.Nullable;
 
 /**
  * 用户Factory
@@ -13,6 +14,46 @@ import org.hibernate.Session;
  */
 public class UserFactory {
 	/**
+	 * 通过手机号查找用户
+	 *
+	 * @param phone 手机号(账号)
+	 * @return UserEntity 如为null则不存在
+	 */
+	@Nullable
+	public static UserEntity findByPhone(String phone) {
+		return HibUtil.handle(session -> {
+			Object obj = session
+					.createQuery("from UserEntity where phone=:inPhone")
+					.setParameter("inPhone", phone)
+					.uniqueResult();
+			if (obj instanceof UserEntity) {
+				return (UserEntity) obj;
+			}
+			return null;
+		});
+	}
+
+	/**
+	 * 通过用户名查找用户
+	 *
+	 * @param name 用户名
+	 * @return UserEntity 如为null则不存在
+	 */
+	@Nullable
+	public static UserEntity findByName(String name) {
+		return HibUtil.handle(session -> {
+			Object obj = session
+					.createQuery("from UserEntity where name=:inName")
+					.setParameter("inName", name)
+					.uniqueResult();
+			if (obj instanceof UserEntity) {
+				return (UserEntity) obj;
+			}
+			return null;
+		});
+	}
+
+	/**
 	 * 用户注册
 	 *
 	 * @param phone    手机号(账号)
@@ -20,22 +61,16 @@ public class UserFactory {
 	 * @param name     用户名
 	 * @return UserEntity
 	 */
+	@Nullable
 	public static UserEntity register(String phone, String password, String name) {
 		UserEntity userEntity = new UserEntity();
 		userEntity.setPhone(phone);
-		userEntity.setPassword(encodePassword(password, phone));
+		userEntity.setPassword(encodePassword(password, phone)); // 对密码进行不可逆加密
 		userEntity.setName(name);
-		Session session = HibUtil.session();
-		session.beginTransaction();
-		try {
+		return HibUtil.handle(session -> {
 			session.save(userEntity);
-			session.getTransaction().commit();
 			return userEntity;
-		} catch (Exception e) {
-			// 失败回滚
-			session.getTransaction().rollback();
-		}
-		return null;
+		});
 	}
 
 	/**
@@ -46,15 +81,12 @@ public class UserFactory {
 	 * @return 可存放在数据库的密码
 	 */
 	private static String encodePassword(String password, String phone) {
-		if (TextUtil.isEmpty(password)) {
-			return null;
-		}
 		String salt = "";
 		if (phone != null && phone.length() > 10) {
-			salt = phone.substring(3).trim();
+			salt = phone.substring(3);
 		}
 
 		// MD5 + base64
-		return TextUtil.encodeBase64(TextUtil.getMD5(password.trim() + salt));
+		return TextUtil.encodeBase64(TextUtil.getMD5(password + salt));
 	}
 }

@@ -1,4 +1,4 @@
-package com.tower.smartservice.bean.card;
+package com.tower.smartservice.bean.response.visible;
 
 import com.google.gson.annotations.Expose;
 
