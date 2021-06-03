@@ -1,26 +1,23 @@
-package com.tower.smartservice.bean.api.account;
+package com.tower.smartservice.bean.api.user;
 
 import com.google.gson.annotations.Expose;
 import com.tower.smartservice.utils.TextUtil;
 
 /**
- * 注册Model
+ * 登录Model
  *
  * @author zpsong-tower <pingzisong2012@gmail.com>
- * @since 2021/5/21 8:53
+ * @since 2021/6/2 17:52
  */
-public class RegisterModel {
-	// 账号
+public class LoginModel {
 	@Expose
 	private String phone;
 
-	// 密码
 	@Expose
 	private String password;
 
-	// 用户名
 	@Expose
-	private String name;
+	private String pushId;
 
 	public String getPhone() {
 		return phone;
@@ -38,24 +35,23 @@ public class RegisterModel {
 		this.password = password;
 	}
 
-	public String getName() {
-		return name;
+	public String getPushId() {
+		return pushId;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setPushId(String pushId) {
+		this.pushId = pushId;
 	}
 
 	/**
 	 * 数据格式校验
 	 *
-	 * @param model RegisterModel
+	 * @param model LoginModel
 	 * @return 是否可用
 	 */
-	public static boolean isAvailable(RegisterModel model) {
+	public static boolean isAvailable(LoginModel model) {
 		return model != null
 				&& !TextUtil.isEmpty(model.getPhone())
-				&& !TextUtil.isEmpty(model.getPassword())
-				&& !TextUtil.isEmpty(model.getName());
+				&& !TextUtil.isEmpty(model.getPassword());
 	}
 }

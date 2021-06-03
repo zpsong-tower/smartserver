@@ -1,7 +1,7 @@
 package com.tower.smartservice;
 
 import com.tower.smartservice.provider.GsonProvider;
-import com.tower.smartservice.service.AccountService;
+import com.tower.smartservice.service.BaseService;
 
 import org.glassfish.jersey.jackson.internal.jackson.jaxrs.json.JacksonJsonProvider;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 public class Application extends ResourceConfig {
 	public Application() {
 		// 注册逻辑处理的包名 (com.tower.smartservice.service)
-		packages(AccountService.class.getPackage().getName());
+		packages(BaseService.class.getPackage().getName());
 
 		// 注册JSON解析器
 		// register(JacksonJsonProvider.class);

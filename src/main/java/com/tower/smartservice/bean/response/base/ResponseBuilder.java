@@ -23,7 +23,7 @@ public class ResponseBuilder {
 	 * 响应成功，并返回客户端请求的数据
 	 *
 	 * @param result 返回给App的消息中携带的数据
-	 * @param <R>  返回给App的消息中携带的数据的模型
+	 * @param <R>    返回给App的消息中携带的数据的模型
 	 * @return ResponseModel
 	 */
 	public static <R> ResponseModel<R> success(R result) {
@@ -37,6 +37,15 @@ public class ResponseBuilder {
 	 */
 	public static ResponseModel unknownError() {
 		return new ResponseModel(ResponseCode.UNKNOWN_ERROR, ResponseMsg.UNKNOWN_ERROR);
+	}
+
+	/**
+	 * 服务器异常
+	 *
+	 * @return ResponseModel
+	 */
+	public static ResponseModel serviceError() {
+		return new ResponseModel(ResponseCode.SERVICE_ERROR, ResponseMsg.SERVICE_ERROR);
 	}
 
 	/**

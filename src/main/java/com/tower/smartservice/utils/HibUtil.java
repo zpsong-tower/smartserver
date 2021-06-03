@@ -20,7 +20,7 @@ public class HibUtil {
 	private static SessionFactory sessionFactory;
 
 	static { // 静态代码块初始化 SessionFactory
-		final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+		StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
 				.configure() // 从hibernate.cfg.xml文件初始化
 				.build();
 		try {
@@ -52,7 +52,7 @@ public class HibUtil {
 			return null;
 		}
 		T t;
-		final Transaction transaction = session.beginTransaction();
+		Transaction transaction = session.beginTransaction();
 		try {
 			t = handler.handleAndReturn(session);
 
@@ -84,7 +84,7 @@ public class HibUtil {
 		if (session == null) {
 			return;
 		}
-		final Transaction transaction = session.beginTransaction();
+		Transaction transaction = session.beginTransaction();
 		try {
 			handler.handleOnly(session);
 

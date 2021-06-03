@@ -1,11 +1,15 @@
 package com.tower.smartservice.service;
 
-import com.tower.smartservice.bean.api.account.RegisterModel;
+import com.tower.smartservice.bean.api.user.LoginModel;
+import com.tower.smartservice.bean.api.user.RegisterModel;
+import com.tower.smartservice.bean.response.AccountRspModel;
 import com.tower.smartservice.bean.response.base.ResponseBuilder;
 import com.tower.smartservice.bean.response.base.ResponseModel;
 import com.tower.smartservice.bean.db.UserEntity;
 import com.tower.smartservice.factory.UserFactory;
+import com.tower.smartservice.utils.TextUtil;
 
+import javax.annotation.Nonnull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
@@ -22,7 +26,7 @@ public class AccountService {
 	 * http://localhost:8080/Gradle___smartservice___smartservice_1_0_SNAPSHOT_war/api/account/register
 	 *
 	 * @param model RegisterModel
-	 * @return UserEntity
+	 * @return ResponseModel
 	 */
 	@POST
 	@Path("/register")
@@ -33,24 +37,107 @@ public class AccountService {
 			// 参数非法
 			return ResponseBuilder.paramIllegal();
 		}
-		UserEntity tempUser;
-		tempUser = UserFactory.findByPhone(model.getPhone());
-		if (tempUser != null) {
+		UserEntity user;
+		user = UserFactory.findByPhone(model.getPhone());
+		if (user != null) {
 			// 手机号已存在
 			return ResponseBuilder.paramPhoneExist();
 		}
-		tempUser = UserFactory.findByName(model.getName());
-		if (tempUser != null) {
+		user = UserFactory.findByName(model.getName());
+		if (user != null) {
 			// 用户名已存在
 			return ResponseBuilder.paramNameExist();
 		}
-		tempUser = UserFactory.register(model.getPhone(), model.getPassword(), model.getName());
-		if (tempUser == null) {
+		user = UserFactory.register(model.getPhone(), model.getPassword(), model.getName());
+		if (user == null) {
 			// 未知错误
 			return ResponseBuilder.unknownError();
 		}
 
 		// 注册成功
 		return ResponseBuilder.success();
+	}
+
+	/**
+	 * 登录POST
+	 * http://localhost:8080/Gradle___smartservice___smartservice_1_0_SNAPSHOT_war/api/account/login
+	 *
+	 * @param model RegisterModel
+	 * @return ResponseModel
+	 */
+	@POST
+	@Path("/login")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public ResponseModel login(LoginModel model) {
+		if (!LoginModel.isAvailable(model)) {
+			// 参数非法
+			return ResponseBuilder.paramIllegal();
+		}
+		UserEntity user = UserFactory.login(model.getPhone(), model.getPassword());
+		if (user == null) {
+			// 登录失败 返回未知错误
+			return ResponseBuilder.unknownError();
+		} else {
+			if (TextUtil.isEmpty(model.getPushId())) {
+				// 未绑定PushId 登录成功 返回未绑定PushId的当前账户
+				AccountRspModel rspModel = new AccountRspModel(user);
+				return ResponseBuilder.success(rspModel);
+			}
+
+			// 如果数据库有PushId
+			return bind(user, model.getPushId());
+		}
+	}
+
+
+	/**
+	 * 通过Token绑定PushId
+	 * http://localhost:8080/Gradle___smartservice___smartservice_1_0_SNAPSHOT_war/api/account/bind/xxxxx
+	 *
+	 * @param token  Token
+	 * @param pushId PushId
+	 * @return ResponseModel
+	 */
+	@POST
+	@Path("/bind/{pushId}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public ResponseModel bind(@HeaderParam("token") String token, // 从请求头中获取token
+	                          @PathParam("pushId") String pushId) { // 从url地址中获取pushId
+		if (TextUtil.isEmpty(token) || TextUtil.isEmpty(pushId)) {
+			// 参数非法
+			return ResponseBuilder.paramIllegal();
+		}
+
+		// 拿到自己的个人信息
+		UserEntity self = UserFactory.findByToken(token);
+		if (self == null) {
+			// 未知错误
+			return ResponseBuilder.unknownError();
+		}
+
+		// 绑定
+		return bind(self, pushId);
+	}
+
+	/**
+	 * 绑定PushId
+	 *
+	 * @param self   UserEntity
+	 * @param pushId PushId
+	 * @return ResponseModel
+	 */
+	private ResponseModel bind(@Nonnull UserEntity self, String pushId) {
+		// 进行PushId绑定的操作
+		UserEntity user = UserFactory.bindPushId(self, pushId);
+		if (user == null) {
+			// 绑定失败 返回服务器异常
+			return ResponseBuilder.serviceError();
+		}
+
+		// 绑定成功 返回当前的账户 并且已经绑定了PushId
+		AccountRspModel rspModel = new AccountRspModel(user, true);
+		return ResponseBuilder.success(rspModel);
 	}
 }

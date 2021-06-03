@@ -15,7 +15,7 @@ class ResponseCode {
 	 *
 	 * @see ResponseMsg#SUCCESS
 	 */
-	static final int SUCCESS = 0;
+	static final int SUCCESS = 1;
 
 	/**
 	 * 未知错误
@@ -23,6 +23,13 @@ class ResponseCode {
 	 * @see ResponseMsg#UNKNOWN_ERROR
 	 */
 	static final int UNKNOWN_ERROR = -1;
+
+	/**
+	 * 服务器异常
+	 *
+	 * @see ResponseMsg#SERVICE_ERROR
+	 */
+	static final int SERVICE_ERROR = -2;
 
 	/**
 	 * 参数非法

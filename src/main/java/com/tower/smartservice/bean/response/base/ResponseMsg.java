@@ -25,6 +25,13 @@ class ResponseMsg {
 	static final String UNKNOWN_ERROR = "Unknown error";
 
 	/**
+	 * 服务器异常
+	 *
+	 * @see ResponseCode#SERVICE_ERROR
+	 */
+	static final String SERVICE_ERROR = "Service error";
+
+	/**
 	 * 参数非法
 	 *
 	 * @see ResponseCode#PARAM_ILLEGAL
