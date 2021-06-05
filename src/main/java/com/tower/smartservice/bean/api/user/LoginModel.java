@@ -51,7 +51,7 @@ public class LoginModel {
 	 */
 	public static boolean isAvailable(LoginModel model) {
 		return model != null
-				&& !TextUtil.isEmpty(model.getPhone())
-				&& !TextUtil.isEmpty(model.getPassword());
+				&& !TextUtil.isEmpty(model.phone)
+				&& !TextUtil.isEmpty(model.password);
 	}
 }

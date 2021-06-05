@@ -20,7 +20,7 @@ import javax.ws.rs.core.MediaType;
  * @since 2020/10/24 19:00
  */
 @Path("/account")
-public class AccountService {
+public class AccountService extends BaseService {
 	/**
 	 * 注册POST
 	 * http://localhost:8080/Gradle___smartservice___smartservice_1_0_SNAPSHOT_war/api/account/register
@@ -62,8 +62,8 @@ public class AccountService {
 	 * 登录POST
 	 * http://localhost:8080/Gradle___smartservice___smartservice_1_0_SNAPSHOT_war/api/account/login
 	 *
-	 * @param model RegisterModel
-	 * @return ResponseModel
+	 * @param model LoginModel
+	 * @return ResponseModel AccountRspModel
 	 */
 	@POST
 	@Path("/login")
@@ -80,7 +80,7 @@ public class AccountService {
 			return ResponseBuilder.unknownError();
 		} else {
 			if (TextUtil.isEmpty(model.getPushId())) {
-				// 未绑定PushId 登录成功 返回未绑定PushId的当前账户
+				// 登录成功 返回未绑定PushId的当前账户
 				AccountRspModel rspModel = new AccountRspModel(user);
 				return ResponseBuilder.success(rspModel);
 			}
@@ -95,23 +95,21 @@ public class AccountService {
 	 * 通过Token绑定PushId
 	 * http://localhost:8080/Gradle___smartservice___smartservice_1_0_SNAPSHOT_war/api/account/bind/xxxxx
 	 *
-	 * @param token  Token
 	 * @param pushId PushId
-	 * @return ResponseModel
+	 * @return ResponseModel AccountRspModel
 	 */
 	@POST
 	@Path("/bind/{pushId}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public ResponseModel bind(@HeaderParam("token") String token, // 从请求头中获取token
-	                          @PathParam("pushId") String pushId) { // 从url地址中获取pushId
-		if (TextUtil.isEmpty(token) || TextUtil.isEmpty(pushId)) {
+	public ResponseModel bind(@PathParam("pushId") String pushId) { // 从url地址中获取pushId
+		if (TextUtil.isEmpty(pushId)) {
 			// 参数非法
 			return ResponseBuilder.paramIllegal();
 		}
 
 		// 拿到自己的个人信息
-		UserEntity self = UserFactory.findByToken(token);
+		UserEntity self = getSelf();
 		if (self == null) {
 			// 未知错误
 			return ResponseBuilder.unknownError();
@@ -126,7 +124,7 @@ public class AccountService {
 	 *
 	 * @param self   UserEntity
 	 * @param pushId PushId
-	 * @return ResponseModel
+	 * @return ResponseModel AccountRspModel
 	 */
 	private ResponseModel bind(@Nonnull UserEntity self, String pushId) {
 		// 进行PushId绑定的操作

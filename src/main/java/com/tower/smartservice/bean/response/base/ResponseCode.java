@@ -32,6 +32,13 @@ class ResponseCode {
 	static final int SERVICE_ERROR = -2;
 
 	/**
+	 * 认证错误 Token无效
+	 *
+	 * @see ResponseMsg#AUTH_TOKEN_INVALID
+	 */
+	static final int AUTH_TOKEN_INVALID = 901;
+
+	/**
 	 * 参数非法
 	 *
 	 * @see ResponseMsg#PARAM_ILLEGAL
@@ -51,4 +58,11 @@ class ResponseCode {
 	 * @see ResponseMsg#PARAM_NAME_EXIST
 	 */
 	static final int PARAM_NAME_EXIST = 1002;
+
+	/**
+	 * 查询错误 该用户不存在
+	 *
+	 * @see ResponseMsg#SEARCH_NO_SUCH_USER
+	 */
+	static final int SEARCH_NO_SUCH_USER = 2001;
 }

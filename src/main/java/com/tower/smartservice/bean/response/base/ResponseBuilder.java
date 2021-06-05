@@ -49,6 +49,15 @@ public class ResponseBuilder {
 	}
 
 	/**
+	 * 认证错误 Token无效
+	 *
+	 * @return ResponseModel
+	 */
+	public static ResponseModel authTokenInvalid() {
+		return new ResponseModel(ResponseCode.AUTH_TOKEN_INVALID, ResponseMsg.AUTH_TOKEN_INVALID);
+	}
+
+	/**
 	 * 参数非法
 	 *
 	 * @return ResponseModel
@@ -73,5 +82,14 @@ public class ResponseBuilder {
 	 */
 	public static ResponseModel paramNameExist() {
 		return new ResponseModel(ResponseCode.PARAM_NAME_EXIST, ResponseMsg.PARAM_NAME_EXIST);
+	}
+
+	/**
+	 * 查询错误 该用户不存在
+	 *
+	 * @return ResponseModel
+	 */
+	public static ResponseModel searchNoSuchUser() {
+		return new ResponseModel(ResponseCode.SEARCH_NO_SUCH_USER, ResponseMsg.SEARCH_NO_SUCH_USER);
 	}
 }

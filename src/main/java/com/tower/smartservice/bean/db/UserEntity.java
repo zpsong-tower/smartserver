@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,16 +20,21 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "TB_USER")
-public class UserEntity {
+public class UserEntity implements Principal {
+	/**
+	 * 性别_未知
+	 */
+	public static final int SEX_TYPE_UNKNOWN = 0;
+
 	/**
 	 * 性别_男
 	 */
-	public static final int SEX_TYPE_MALE = 0;
+	public static final int SEX_TYPE_MALE = 1;
 
 	/**
 	 * 性别_女
 	 */
-	public static final int SEX_TYPE_FEMALE = 1;
+	public static final int SEX_TYPE_FEMALE = 2;
 
 	// Id
 	@Id
@@ -60,7 +66,7 @@ public class UserEntity {
 
 	// 性别
 	@Column(nullable = false)
-	private int sex = 0;
+	private int sex = SEX_TYPE_UNKNOWN;
 
 	// Token
 	@Column(unique = true)

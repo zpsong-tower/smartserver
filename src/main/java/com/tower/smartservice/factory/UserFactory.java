@@ -168,7 +168,7 @@ public class UserFactory {
 	private static UserEntity updateToken(@Nonnull UserEntity user) {
 		String newToken = TextUtil.encodeBase64(UUID.randomUUID().toString());
 		user.setToken(newToken);
-		return updateUser(user);
+		return update(user);
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class UserFactory {
 	 * @return UserEntity
 	 */
 	@Nullable
-	public static UserEntity updateUser(UserEntity user) {
+	public static UserEntity update(UserEntity user) {
 		if (user == null) {
 			return null;
 		}
@@ -227,7 +227,7 @@ public class UserFactory {
 
 				// 更新新的PushId
 				user.setPushId(pushId);
-				return updateUser(user);
+				return update(user);
 			}
 		}
 	}

@@ -54,8 +54,8 @@ public class RegisterModel {
 	 */
 	public static boolean isAvailable(RegisterModel model) {
 		return model != null
-				&& !TextUtil.isEmpty(model.getPhone())
-				&& !TextUtil.isEmpty(model.getPassword())
-				&& !TextUtil.isEmpty(model.getName());
+				&& !TextUtil.isEmpty(model.phone)
+				&& !TextUtil.isEmpty(model.password)
+				&& !TextUtil.isEmpty(model.name);
 	}
 }

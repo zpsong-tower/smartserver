@@ -32,6 +32,13 @@ class ResponseMsg {
 	static final String SERVICE_ERROR = "Service error";
 
 	/**
+	 * 认证错误 Token无效
+	 *
+	 * @see ResponseCode#AUTH_TOKEN_INVALID
+	 */
+	static final String AUTH_TOKEN_INVALID = "Auth token invalid";
+
+	/**
 	 * 参数非法
 	 *
 	 * @see ResponseCode#PARAM_ILLEGAL
@@ -51,4 +58,11 @@ class ResponseMsg {
 	 * @see ResponseCode#PARAM_NAME_EXIST
 	 */
 	static final String PARAM_NAME_EXIST = "The user name already exists";
+
+	/**
+	 * 查询错误 该用户不存在
+	 *
+	 * @see ResponseCode#SEARCH_NO_SUCH_USER
+	 */
+	static final String SEARCH_NO_SUCH_USER = "The user could not be found";
 }

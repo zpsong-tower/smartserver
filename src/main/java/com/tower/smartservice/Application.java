@@ -1,5 +1,6 @@
 package com.tower.smartservice;
 
+import com.tower.smartservice.provider.AuthRequestFilter;
 import com.tower.smartservice.provider.GsonProvider;
 import com.tower.smartservice.service.BaseService;
 
@@ -23,6 +24,9 @@ public class Application extends ResourceConfig {
 		// register(JacksonJsonProvider.class);
 		// 替换解析器为Gson
 		register(GsonProvider.class);
+
+		// 注册全局的请求筛选器 对指定请求进行拦截处理
+		register(AuthRequestFilter.class);
 
 		// 注册日志打印输出
 		register(Logger.class);
