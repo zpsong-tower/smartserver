@@ -10,12 +10,15 @@ import com.tower.smartservice.utils.TextUtil;
  * @since 2021/6/2 17:52
  */
 public class LoginModel {
+	// 手机号
 	@Expose
 	private String phone;
 
+	// 密码
 	@Expose
 	private String password;
 
+	// PushId
 	@Expose
 	private String pushId;
 

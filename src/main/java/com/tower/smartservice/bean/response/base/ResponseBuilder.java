@@ -85,6 +85,15 @@ public class ResponseBuilder {
 	}
 
 	/**
+	 * 参数非法 手机号或密码错误
+	 *
+	 * @return ResponseModel
+	 */
+	public static ResponseModel paramAccountInvalid() {
+		return new ResponseModel(ResponseCode.PARAM_ACCOUNT_INVALID, ResponseMsg.PARAM_ACCOUNT_INVALID);
+	}
+
+	/**
 	 * 查询错误 该用户不存在
 	 *
 	 * @return ResponseModel

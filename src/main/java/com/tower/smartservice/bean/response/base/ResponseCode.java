@@ -60,6 +60,13 @@ class ResponseCode {
 	static final int PARAM_NAME_EXIST = 1002;
 
 	/**
+	 * 参数非法 手机号或密码错误
+	 *
+	 * @see ResponseMsg#PARAM_ACCOUNT_INVALID
+	 */
+	static final int PARAM_ACCOUNT_INVALID = 1003;
+
+	/**
 	 * 查询错误 该用户不存在
 	 *
 	 * @see ResponseMsg#SEARCH_NO_SUCH_USER

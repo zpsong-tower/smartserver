@@ -10,7 +10,7 @@ import com.tower.smartservice.utils.TextUtil;
  * @since 2021/5/21 8:53
  */
 public class RegisterModel {
-	// 账号
+	// 手机号
 	@Expose
 	private String phone;
 
@@ -21,6 +21,10 @@ public class RegisterModel {
 	// 用户名
 	@Expose
 	private String name;
+
+	// PushId
+	@Expose
+	private String pushId;
 
 	public String getPhone() {
 		return phone;
@@ -44,6 +48,14 @@ public class RegisterModel {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getPushId() {
+		return pushId;
+	}
+
+	public void setPushId(String pushId) {
+		this.pushId = pushId;
 	}
 
 	/**

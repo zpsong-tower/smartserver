@@ -53,9 +53,14 @@ public class AccountService extends BaseService {
 			// 未知错误
 			return ResponseBuilder.unknownError();
 		}
+		if (TextUtil.isEmpty(model.getPushId())) {
+			// 注册成功 返回未绑定PushId的当前账户
+			AccountRspModel rspModel = new AccountRspModel(user);
+			return ResponseBuilder.success(rspModel);
+		}
 
-		// 注册成功
-		return ResponseBuilder.success();
+		// 如果Model有携带PushId
+		return bind(user, model.getPushId());
 	}
 
 	/**
@@ -76,20 +81,18 @@ public class AccountService extends BaseService {
 		}
 		UserEntity user = UserFactory.login(model.getPhone(), model.getPassword());
 		if (user == null) {
-			// 登录失败 返回未知错误
-			return ResponseBuilder.unknownError();
-		} else {
-			if (TextUtil.isEmpty(model.getPushId())) {
-				// 登录成功 返回未绑定PushId的当前账户
-				AccountRspModel rspModel = new AccountRspModel(user);
-				return ResponseBuilder.success(rspModel);
-			}
-
-			// 如果数据库有PushId
-			return bind(user, model.getPushId());
+			// 登录失败 返回用户名或密码错误
+			return ResponseBuilder.paramAccountInvalid();
 		}
-	}
+		if (TextUtil.isEmpty(model.getPushId())) {
+			// 登录成功 返回未绑定PushId的当前账户
+			AccountRspModel rspModel = new AccountRspModel(user);
+			return ResponseBuilder.success(rspModel);
+		}
 
+		// 如果Model有携带PushId
+		return bind(user, model.getPushId());
+	}
 
 	/**
 	 * 通过Token绑定PushId
@@ -130,8 +133,8 @@ public class AccountService extends BaseService {
 		// 进行PushId绑定的操作
 		UserEntity user = UserFactory.bindPushId(self, pushId);
 		if (user == null) {
-			// 绑定失败 返回服务器异常
-			return ResponseBuilder.serviceError();
+			// 绑定失败 未知错误
+			return ResponseBuilder.unknownError();
 		}
 
 		// 绑定成功 返回当前的账户 并且已经绑定了PushId

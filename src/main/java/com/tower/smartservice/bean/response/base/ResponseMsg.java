@@ -60,6 +60,13 @@ class ResponseMsg {
 	static final String PARAM_NAME_EXIST = "The user name already exists";
 
 	/**
+	 * 参数非法 手机号或密码错误
+	 *
+	 * @see ResponseCode#PARAM_ACCOUNT_INVALID
+	 */
+	static final String PARAM_ACCOUNT_INVALID = "Wrong phone or password";
+
+	/**
 	 * 查询错误 该用户不存在
 	 *
 	 * @see ResponseCode#SEARCH_NO_SUCH_USER

@@ -13,15 +13,19 @@ import javax.annotation.Nonnull;
  * @since 2021/6/5 18:52
  */
 public class UpdateInfoModel {
+	// 用户名
 	@Expose
 	private String name;
 
+	// 头像
 	@Expose
 	private String portrait;
 
+	// 个性签名
 	@Expose
 	private String description;
 
+	// 性别
 	@Expose
 	private int sex;
 
@@ -79,6 +83,12 @@ public class UpdateInfoModel {
 		return user;
 	}
 
+	/**
+	 * 数据格式校验
+	 *
+	 * @param model UpdateInfoModel
+	 * @return 是否可用
+	 */
 	public static boolean isAvailable(UpdateInfoModel model) {
 		return model != null
 				&& (!TextUtil.isEmpty(model.name) || !TextUtil.isEmpty(model.portrait)
