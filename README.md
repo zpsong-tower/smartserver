@@ -28,7 +28,7 @@
 #### 数据库设计:
 
 <div align="center">
-    <img src="https://github.com/zpsong-tower/smartservice/blob/main/resources/db.png">
+    <img src="https://towerdance.oss-cn-shanghai.aliyuncs.com/github/smartservice/db.png">
 </div>
 
 -----
