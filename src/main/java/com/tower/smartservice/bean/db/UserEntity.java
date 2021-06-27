@@ -88,7 +88,7 @@ public class UserEntity implements Principal {
 	// 更新时间
 	@UpdateTimestamp
 	@Column(nullable = false)
-	private LocalDateTime UpdateAt = LocalDateTime.now();
+	private LocalDateTime updateAt = LocalDateTime.now();
 
 	// 我关注的人 UserFollowEntity.originId
 	@OneToMany(cascade = CascadeType.ALL)
@@ -197,11 +197,11 @@ public class UserEntity implements Principal {
 	}
 
 	public LocalDateTime getUpdateAt() {
-		return UpdateAt;
+		return updateAt;
 	}
 
 	public void setUpdateAt(LocalDateTime updateAt) {
-		UpdateAt = updateAt;
+		this.updateAt = updateAt;
 	}
 
 	public Set<UserFollowEntity> getFollowing() {

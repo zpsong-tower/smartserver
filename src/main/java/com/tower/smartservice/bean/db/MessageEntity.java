@@ -88,7 +88,7 @@ public class MessageEntity {
 	// 更新时间
 	@UpdateTimestamp
 	@Column(nullable = false)
-	private LocalDateTime UpdateAt = LocalDateTime.now();
+	private LocalDateTime updateAt = LocalDateTime.now();
 
 	public String getId() {
 		return id;
@@ -179,10 +179,10 @@ public class MessageEntity {
 	}
 
 	public LocalDateTime getUpdateAt() {
-		return UpdateAt;
+		return updateAt;
 	}
 
 	public void setUpdateAt(LocalDateTime updateAt) {
-		UpdateAt = updateAt;
+		this.updateAt = updateAt;
 	}
 }

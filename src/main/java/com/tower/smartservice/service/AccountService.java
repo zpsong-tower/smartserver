@@ -26,7 +26,7 @@ public class AccountService extends BaseService {
 	 * http://localhost:8080/Gradle___smartservice___smartservice_1_0_SNAPSHOT_war/api/account/register
 	 *
 	 * @param model RegisterModel
-	 * @return ResponseModel
+	 * @return ResponseModel AccountRspModel
 	 */
 	@POST
 	@Path("/register")
