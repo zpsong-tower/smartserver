@@ -74,7 +74,7 @@ public class UpdateInfoModel {
 		if (!TextUtil.isEmpty(portrait)) {
 			user.setPortrait(portrait);
 		}
-		if (!TextUtil.isEmpty(description)) {
+		if (description != null) {
 			user.setDescription(description);
 		}
 		if (sex != UserEntity.SEX_TYPE_UNKNOWN) {
