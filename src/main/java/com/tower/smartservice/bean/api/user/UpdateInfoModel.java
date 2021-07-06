@@ -65,7 +65,7 @@ public class UpdateInfoModel {
 	 * 把当前Model实例中的数据填充到UserEntity中
 	 *
 	 * @param user UserEntity
-	 * @return User UserEntity
+	 * @return UserEntity
 	 */
 	public UserEntity updateToUser(@Nonnull UserEntity user) {
 		if (!TextUtil.isEmpty(name)) {

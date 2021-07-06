@@ -10,6 +10,9 @@ import com.tower.smartservice.utils.TextUtil;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * UserService
@@ -40,7 +43,7 @@ public class UserService extends BaseService {
 			// 未知错误
 			return ResponseBuilder.unknownError();
 		}
-		if (id.equalsIgnoreCase(self.getId())) {
+		if (id.equals(self.getId())) {
 			// 查询成功 返回自己UserCard 不必再查询数据库
 			return ResponseBuilder.success(new UserCard(self, true));
 		}
@@ -56,7 +59,7 @@ public class UserService extends BaseService {
 	}
 
 	/**
-	 * 更新用户信息PUT
+	 * 更新用户信息
 	 * http://localhost:8080/Gradle___smartservice___smartservice_1_0_SNAPSHOT_war/api/user
 	 *
 	 * @param model RegisterModel
@@ -81,5 +84,72 @@ public class UserService extends BaseService {
 		// 更新成功 返回更新后的自己UserCard
 		UserCard card = new UserCard(self, true);
 		return ResponseBuilder.success(card);
+	}
+
+	/**
+	 * 拉取联系人列表(关注的人列表)
+	 * http://localhost:8080/Gradle___smartservice___smartservice_1_0_SNAPSHOT_war/api/user/contact
+	 *
+	 * @return ResponseModel ArrayList<UserCard>
+	 */
+	@GET
+	@Path("/contact")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public ResponseModel getContacts() {
+		UserEntity self = getSelf();
+		List<UserEntity> users = UserFactory.getContacts(self);
+		if (users == null) {
+			// 未知错误
+			return ResponseBuilder.unknownError();
+		}
+
+		// List<UserCard> userCards = users.stream()
+		// 		.map(user -> new UserCard(user, true))
+		// 		.collect(Collectors.toList());
+		List<UserCard> userCards = new ArrayList<>();
+		for (UserEntity user : users) {
+			userCards.add(new UserCard(user, true));
+		}
+
+		// 查询成功 返回UserCard数组
+		return ResponseBuilder.success(userCards);
+	}
+
+
+	/**
+	 * 关注人(目前设计为自动互关)
+	 * http://localhost:8080/Gradle___smartservice___smartservice_1_0_SNAPSHOT_war/api/user/follow/xxx
+	 *
+	 * @param followId 被关注人的Id
+	 * @return ResponseModel UserCard
+	 */
+	@PUT
+	@Path("/follow/{followId}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public ResponseModel follow(@PathParam("followId") String followId) {
+		UserEntity self = getSelf();
+		if (self.getId().equals(followId)) {
+			// 参数非法 不能关注我自己
+			return ResponseBuilder.paramIllegal();
+		}
+		UserEntity followUser = UserFactory.findById(followId);
+		if (followUser == null) {
+			// 返回该用户不存在
+			return ResponseBuilder.searchNoSuchUser();
+		}
+
+		// TODO 备注名暂时为空 后期对功能进行扩展
+		followUser = UserFactory.follow(self, followUser, null);
+		if (followUser == null) {
+			// 未知错误
+			return ResponseBuilder.unknownError();
+		}
+
+		// TODO 推送被关注人有与自己相关的新的用户关系被建立
+
+		// 关注成功 返回被关注人的UserCard
+		return ResponseBuilder.success(new UserCard(followUser, true));
 	}
 }
