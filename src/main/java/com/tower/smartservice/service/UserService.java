@@ -12,6 +12,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * UserService
@@ -22,7 +23,7 @@ import java.util.List;
 @Path("/user")
 public class UserService extends BaseService {
 	/**
-	 * 查询指定用户的信息
+	 * 查询指定Id的用户信息
 	 * http://localhost:8080/Gradle___smartservice___smartservice_1_0_SNAPSHOT_war/api/user/xxx
 	 *
 	 * @param id 查询的用户Id
@@ -52,9 +53,49 @@ public class UserService extends BaseService {
 			return ResponseBuilder.searchNoSuchUser();
 		}
 
-		// TODO 查询成功 返回标识了用户关系的UserCard
-		boolean isFollow = true;
+		// 查询成功 返回标识了用户关系的UserCard
+		boolean isFollow = UserFactory.getUserFollow(self, user) != null;
 		return ResponseBuilder.success(new UserCard(user, isFollow));
+	}
+
+	/**
+	 * 查询指定用户名的用户信息 (模糊查询 单页最多返回20个)
+	 * http://localhost:8080/Gradle___smartservice___smartservice_1_0_SNAPSHOT_war/api/user/search/xxx
+	 *
+	 * @param name 用户名
+	 * @return ResponseModel List<UserCard>
+	 */
+	@GET
+	@Path("/search/{name:(.*)?}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public ResponseModel search(@DefaultValue("") @PathParam("name") String name) {
+		UserEntity self = getSelf();
+		if (self == null) {
+			// 未知错误
+			return ResponseBuilder.unknownError();
+		}
+		List<UserEntity> searchUsers = UserFactory.search(name);
+		List<UserEntity> contacts = UserFactory.getContacts(self);
+		if (searchUsers == null || contacts == null) {
+			// 未知错误
+			return ResponseBuilder.unknownError();
+		}
+		List<UserCard> userCards = searchUsers.stream()
+				.map(user -> {
+					boolean isFollow =
+							// 这个人是否是我自己
+							user.getId().equals(self.getId())
+									|| contacts.stream().anyMatch(contactUser -> {
+										// 或者是我已关注的人
+										return contactUser.getId().equals(user.getId());
+									}
+							);
+					return new UserCard(user, isFollow);
+				}).collect(Collectors.toList());
+
+		// 查询成功 返回标识了用户关系的UserCard集合
+		return ResponseBuilder.success(userCards);
 	}
 
 	/**
@@ -111,7 +152,7 @@ public class UserService extends BaseService {
 			userCards.add(new UserCard(user, true));
 		}
 
-		// 查询成功 返回UserCard数组
+		// 查询成功 返回UserCard集合
 		return ResponseBuilder.success(userCards);
 	}
 

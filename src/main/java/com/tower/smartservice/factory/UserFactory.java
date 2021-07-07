@@ -18,7 +18,7 @@ import java.util.UUID;
  * @author zpsong-tower <pingzisong2012@gmail.com>
  * @since 2021/5/21 14:45
  */
-public class UserFactory {
+public class UserFactory extends BaseFactory {
 	private static final Object PUSH_ID_LOCK = new Object();
 
 	/**
@@ -329,12 +329,34 @@ public class UserFactory {
 			Object obj = session.createQuery("from UserFollowEntity where originId=:originId and targetId=:targetId")
 					.setParameter("originId", origin.getId())
 					.setParameter("targetId", target.getId())
-					.setMaxResults(1)
+					.setMaxResults(MAX_RESULTS_UNIQUE_RESULT)
 					.uniqueResult();
 			if (obj instanceof UserFollowEntity) {
 				return (UserFollowEntity) obj;
 			}
 			return null;
+		});
+	}
+
+	/**
+	 * 通过用户名模糊查询用户
+	 *
+	 * @param name 用户名 允许为空
+	 * @return 查询到的用户集合
+	 */
+	@SuppressWarnings("unchecked")
+	public static List<UserEntity> search(@Nullable String name) {
+		if (TextUtil.isEmpty(name)) {
+			name = "";
+		}
+		String searchName = "%" + name + "%";
+		return HibUtil.handle(session -> {
+			// name忽略大小写 使用模糊查询
+			// 完善过个人信息的用户才能被查询到 即头像不为空
+			return (List<UserEntity>) session.createQuery("from UserEntity where lower(name) like :name and portrait is not null")
+					.setParameter("name", searchName)
+					.setMaxResults(MAX_RESULTS_EACH_PAGE)
+					.list();
 		});
 	}
 

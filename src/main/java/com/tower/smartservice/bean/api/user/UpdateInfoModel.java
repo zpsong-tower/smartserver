@@ -67,7 +67,10 @@ public class UpdateInfoModel {
 	 * @param user UserEntity
 	 * @return UserEntity
 	 */
-	public UserEntity updateToUser(@Nonnull UserEntity user) {
+	public UserEntity updateToUser(UserEntity user) {
+		if (user == null) {
+			return null;
+		}
 		if (!TextUtil.isEmpty(name)) {
 			user.setName(name);
 		}
