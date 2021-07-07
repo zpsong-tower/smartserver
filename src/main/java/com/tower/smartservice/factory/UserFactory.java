@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  * 用户Factory
@@ -291,7 +290,8 @@ public class UserFactory {
 			session.load(origin, origin.getId());
 			session.load(target, target.getId());
 
-			// 设计为互关 当用户关注他人时，让被关注人也关注该用户
+			// 创建新的关注用户关系
+			// 关系中包含 发起者，被关注者和备注名
 			UserFollowEntity originFollow = new UserFollowEntity();
 			originFollow.setOrigin(origin);
 			originFollow.setTarget(target);
@@ -299,10 +299,11 @@ public class UserFactory {
 				originFollow.setNickname(nickname);
 			}
 
+			// 设计为互关 当用户关注他人时，让被关注人也关注该用户
 			// 被关注者对该用户默认没有备注名
 			UserFollowEntity targetFollow = new UserFollowEntity();
-			targetFollow.setOrigin(origin);
-			targetFollow.setTarget(target);
+			targetFollow.setOrigin(target);
+			targetFollow.setTarget(origin);
 
 			// 保存数据库
 			session.save(originFollow);
@@ -328,6 +329,7 @@ public class UserFactory {
 			Object obj = session.createQuery("from UserFollowEntity where originId=:originId and targetId=:targetId")
 					.setParameter("originId", origin.getId())
 					.setParameter("targetId", target.getId())
+					.setMaxResults(1)
 					.uniqueResult();
 			if (obj instanceof UserFollowEntity) {
 				return (UserFollowEntity) obj;

@@ -12,7 +12,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * UserService
@@ -130,8 +129,8 @@ public class UserService extends BaseService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public ResponseModel follow(@PathParam("followId") String followId) {
 		UserEntity self = getSelf();
-		if (self.getId().equals(followId)) {
-			// 参数非法 不能关注我自己
+		if (TextUtil.isEmpty(followId) || self.getId().equals(followId)) {
+			// 参数非法
 			return ResponseBuilder.paramIllegal();
 		}
 		UserEntity followUser = UserFactory.findById(followId);
