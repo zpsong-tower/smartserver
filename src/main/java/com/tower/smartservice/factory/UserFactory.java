@@ -123,10 +123,9 @@ public class UserFactory extends BaseFactory {
 		user.setPhone(phone);
 		user.setPassword(encodePassword(password, phone)); // 对密码进行不可逆加密
 		user.setName(name);
-		return HibUtil.handle(session -> {
-			session.save(user);
-			return user;
-		});
+
+		// 直接对新注册的User进行登录操作
+		return updateToken(user);
 	}
 
 	/**
