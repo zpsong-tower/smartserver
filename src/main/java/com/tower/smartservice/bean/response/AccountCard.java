@@ -1,7 +1,10 @@
 package com.tower.smartservice.bean.response;
 
-import com.google.gson.annotations.Expose;
 import com.tower.smartservice.bean.db.UserEntity;
+
+import com.google.gson.annotations.Expose;
+
+import javax.annotation.Nonnull;
 
 /**
  * AccountRspModel
@@ -9,7 +12,7 @@ import com.tower.smartservice.bean.db.UserEntity;
  * @author zpsong-tower <pingzisong2012@gmail.com>
  * @since 2021/6/2 17:07
  */
-public class AccountRspModel {
+public class AccountCard {
 	@Expose
 	private UserCard userCard;
 
@@ -22,11 +25,11 @@ public class AccountRspModel {
 	@Expose
 	private boolean isBind;
 
-	public AccountRspModel(UserEntity user) {
+	public AccountCard(@Nonnull UserEntity user) {
 		this(user, false);
 	}
 
-	public AccountRspModel(UserEntity user, boolean isBind) {
+	public AccountCard(@Nonnull UserEntity user, boolean isBind) {
 		this.userCard = new UserCard(user);
 		this.phone = user.getPhone();
 		this.token = user.getToken();

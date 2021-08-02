@@ -1,9 +1,11 @@
 package com.tower.smartservice.bean.response;
 
-import com.google.gson.annotations.Expose;
 import com.tower.smartservice.bean.db.UserEntity;
 import com.tower.smartservice.utils.HibUtil;
 
+import com.google.gson.annotations.Expose;
+
+import javax.annotation.Nonnull;
 import java.time.LocalDateTime;
 
 /**
@@ -49,11 +51,11 @@ public class UserCard {
 	@Expose
 	private boolean isFollow;
 
-	public UserCard(UserEntity user) {
+	public UserCard(@Nonnull UserEntity user) {
 		this(user, false);
 	}
 
-	public UserCard(UserEntity user, boolean isFollow) {
+	public UserCard(@Nonnull UserEntity user, boolean isFollow) {
 		this.id = user.getId();
 		this.name = user.getName();
 		this.portrait = user.getPortrait();

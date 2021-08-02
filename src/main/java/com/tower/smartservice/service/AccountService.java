@@ -2,7 +2,7 @@ package com.tower.smartservice.service;
 
 import com.tower.smartservice.bean.api.user.LoginModel;
 import com.tower.smartservice.bean.api.user.RegisterModel;
-import com.tower.smartservice.bean.response.AccountRspModel;
+import com.tower.smartservice.bean.response.AccountCard;
 import com.tower.smartservice.bean.response.base.ResponseBuilder;
 import com.tower.smartservice.bean.response.base.ResponseModel;
 import com.tower.smartservice.bean.db.UserEntity;
@@ -55,8 +55,8 @@ public class AccountService extends BaseService {
 		}
 		if (TextUtil.isEmpty(model.getPushId())) {
 			// 注册成功 返回未绑定PushId的当前账户
-			AccountRspModel rspModel = new AccountRspModel(user);
-			return ResponseBuilder.success(rspModel);
+			AccountCard card = new AccountCard(user);
+			return ResponseBuilder.success(card);
 		}
 
 		// 如果Model有携带PushId
@@ -86,8 +86,8 @@ public class AccountService extends BaseService {
 		}
 		if (TextUtil.isEmpty(model.getPushId())) {
 			// 登录成功 返回未绑定PushId的当前账户
-			AccountRspModel rspModel = new AccountRspModel(user);
-			return ResponseBuilder.success(rspModel);
+			AccountCard card = new AccountCard(user);
+			return ResponseBuilder.success(card);
 		}
 
 		// 如果Model有携带PushId
@@ -138,7 +138,7 @@ public class AccountService extends BaseService {
 		}
 
 		// 绑定成功 返回当前的账户 并且已经绑定了PushId
-		AccountRspModel rspModel = new AccountRspModel(user, true);
-		return ResponseBuilder.success(rspModel);
+		AccountCard card = new AccountCard(user, true);
+		return ResponseBuilder.success(card);
 	}
 }
