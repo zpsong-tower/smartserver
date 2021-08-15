@@ -10,14 +10,18 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    maven {
+        name "getui-nexus"
+        url "http://mvn.gt.igexin.com/nexus/content/repositories/releases/"
+    }
 }
 
 dependencies {
-    // Guava java类封装 体积大,只用于后台
+    // Guava java类封装 体积大 只用于后台
     compile 'com.google.guava:guava:21.0'
 
-    // Gson json解析
-    compile 'com.google.code.gson:gson:2.8.5'
+    // jsr305 检查缺陷用注解
+    compile 'com.google.code.findbugs:jsr305:3.0.2'
 
     // Jersey 轻量级Restful接口框架
     // 客户端 测试用
@@ -27,8 +31,9 @@ dependencies {
     // servlet容器
     compile 'org.glassfish.jersey.containers:jersey-container-servlet:2.28'
     compile group: 'org.glassfish.jersey.inject', name: 'jersey-hk2', version: '2.28'
-    // jackson Json解析
-    compile 'org.glassfish.jersey.media:jersey-media-json-jackson:2.28'
+
+    // MySQL 驱动库
+    compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
 
     // Hibernate 数据库框架
     // 核心组件及其entitymanager包装
@@ -37,11 +42,14 @@ dependencies {
     // c3p0连接池
     compile 'org.hibernate:hibernate-c3p0:5.4.1.Final'
 
-    // MySQL 驱动库
-    compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
+    // Json解析
+    // jackson
+    compile 'org.glassfish.jersey.media:jersey-media-json-jackson:2.28'
+    // Gson
+    compile 'com.google.code.gson:gson:2.8.5'
 
-    // jsr305 检查缺陷用注解
-    compile 'com.google.code.findbugs:jsr305:3.0.2'
+    // 个推
+    compile 'com.gexin.platform:gexin-rp-sdk-http:4.1.0.0'
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }

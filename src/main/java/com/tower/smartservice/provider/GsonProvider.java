@@ -34,12 +34,11 @@ public class GsonProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<
 	// 共用一个全局的Gson
 	private static final Gson gson;
 
-
 	static { // 静态代码块初始化Gson
 		GsonBuilder builder = new GsonBuilder()
 				.serializeNulls() // 序列化为null的字段
 				.excludeFieldsWithoutExposeAnnotation() // 仅仅处理带有@Expose注解的变量
-				.enableComplexMapKeySerialization(); // // 支持Map
+				.enableComplexMapKeySerialization(); // 支持Map
 
 		// 添加对 Java8 - LocalDateTime 时间类型的支持
 		builder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeConverter());
@@ -95,5 +94,4 @@ public class GsonProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<
 			gson.toJson(t, genericType, jsonWriter);
 		}
 	}
-
 }
