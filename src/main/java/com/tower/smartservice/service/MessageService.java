@@ -7,6 +7,7 @@ import com.tower.smartservice.bean.response.MessageCard;
 import com.tower.smartservice.bean.response.base.ResponseBuilder;
 import com.tower.smartservice.bean.response.base.ResponseModel;
 import com.tower.smartservice.factory.MessageFactory;
+import com.tower.smartservice.factory.PushFactory;
 import com.tower.smartservice.factory.UserFactory;
 
 import javax.annotation.Nonnull;
@@ -73,20 +74,20 @@ public class MessageService extends BaseService {
 			// 未知错误
 			return ResponseBuilder.unknownError();
 		}
+		MessageCard card = new MessageCard(message);
+		card = PushFactory.pushUserMessage(receiver, card);
+		if (card == null) {
+			// 推送失败
+			return ResponseBuilder.pushMessageFailed();
+		}
 
-		// 推送消息
-		return push();
+		// 推送成功 返回MessageCard
+		return ResponseBuilder.success(card);
 	}
 
 	@Nonnull
 	private ResponseModel sendToGroup(@Nonnull UserEntity sender, @Nonnull MessageCreateModel model) {
 		// TODO 群组模块
-		return ResponseBuilder.unknownError();
-	}
-
-	@Nonnull
-	private ResponseModel push() {
-		// TODO 推送记录
 		return ResponseBuilder.unknownError();
 	}
 }

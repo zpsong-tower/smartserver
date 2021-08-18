@@ -65,7 +65,9 @@ public class PushUtil {
 				ex.printStackTrace();
 			}
 		}
-		if (result == null) {
+		if (result == null || result.getResponse() == null) {
+			// TODO 检测HashMap中的Json信息 校验推送是否成功
+			//  每有一个不成功 pushAmount--
 			return 0;
 		}
 		return pushAmount;

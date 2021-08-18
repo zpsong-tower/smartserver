@@ -101,4 +101,13 @@ public class ResponseBuilder {
 	public static ResponseModel searchNoSuchUser() {
 		return new ResponseModel(ResponseCode.SEARCH_NO_SUCH_USER, ResponseMsg.SEARCH_NO_SUCH_USER);
 	}
+
+	/**
+	 * 推送错误 推送消息失败
+	 *
+	 * @return ResponseModel
+	 */
+	public static ResponseModel pushMessageFailed() {
+		return new ResponseModel(ResponseCode.PUSH_MESSAGE_FAILED, ResponseMsg.PUSH_MESSAGE_FAILED);
+	}
 }

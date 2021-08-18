@@ -72,4 +72,11 @@ class ResponseMsg {
 	 * @see ResponseCode#SEARCH_NO_SUCH_USER
 	 */
 	static final String SEARCH_NO_SUCH_USER = "The user could not be found";
+
+	/**
+	 * 推送错误 推送消息失败
+	 *
+	 * @see ResponseCode#PUSH_MESSAGE_FAILED
+	 */
+	static final String PUSH_MESSAGE_FAILED = "The push service failed to send messages";
 }

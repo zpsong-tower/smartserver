@@ -17,39 +17,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "TB_PUSH_HISTORY")
 public class PushHistoryEntity {
-	/**
-	 * 推送类型_登出
-	 */
-	public static final int ENTITY_TYPE_LOGOUT = -1;
-
-	/**
-	 * 推送类型_消息
-	 */
-	public static final int ENTITY_TYPE_MESSAGE = 200;
-
-	/**
-	 * 推送类型_添加朋友
-	 */
-	public static final int ENTITY_TYPE_ADD_FRIEND = 1001;
-
-	/**
-	 * 推送类型_添加群组
-	 */
-	public static final int ENTITY_TYPE_ADD_GROUP = 1002;
-
-	/**
-	 * 推送类型_添加群成员
-	 */
-	public static final int ENTITY_TYPE_ADD_GROUP_MEMBERS = 1003;
-	/**
-	 * 推送类型_修改群成员
-	 */
-	public static final int ENTITY_TYPE_MODIFY_GROUP_MEMBERS = 2001;
-	/**
-	 * 推送类型_删除群成员
-	 */
-	public static final int ENTITY_TYPE_DELETE_GROUP_MEMBERS = 3001;
-
 	// Id
 	@Id
 	@PrimaryKeyJoinColumn

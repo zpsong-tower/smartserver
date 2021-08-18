@@ -72,4 +72,11 @@ class ResponseCode {
 	 * @see ResponseMsg#SEARCH_NO_SUCH_USER
 	 */
 	static final int SEARCH_NO_SUCH_USER = 2001;
+
+	/**
+	 * 推送错误 推送消息失败
+	 *
+	 * @see ResponseMsg#PUSH_MESSAGE_FAILED
+	 */
+	static final int PUSH_MESSAGE_FAILED = 3001;
 }
