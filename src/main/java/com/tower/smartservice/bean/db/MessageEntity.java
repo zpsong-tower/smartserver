@@ -1,9 +1,11 @@
 package com.tower.smartservice.bean.db;
 
+import com.tower.smartservice.bean.api.message.MessageCreateModel;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import javax.annotation.Nonnull;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -89,6 +91,44 @@ public class MessageEntity {
 	@UpdateTimestamp
 	@Column(nullable = false)
 	private LocalDateTime updateAt = LocalDateTime.now();
+
+	/**
+	 * 构造方法
+	 */
+	public MessageEntity() {
+	}
+
+	/**
+	 * 构造方法 (对用户发送的消息)
+	 *
+	 * @param sender   发送者
+	 * @param receiver 消息接收人
+	 * @param model    MessageCreateModel
+	 */
+	public MessageEntity(@Nonnull UserEntity sender, @Nonnull UserEntity receiver, @Nonnull MessageCreateModel model) {
+		this.id = model.getId();
+		this.content = model.getContent();
+		this.attachment = model.getAttachment();
+		this.type = model.getType();
+		this.sender = sender;
+		this.receiver = receiver;
+	}
+
+	/**
+	 * 构造方法 (对群组发送的消息)
+	 *
+	 * @param sender 发送者
+	 * @param group  消息接收群
+	 * @param model  MessageCreateModel
+	 */
+	public MessageEntity(@Nonnull UserEntity sender, @Nonnull GroupEntity group, @Nonnull MessageCreateModel model) {
+		this.id = model.getId();
+		this.content = model.getContent();
+		this.attachment = model.getAttachment();
+		this.type = model.getType();
+		this.sender = sender;
+		this.group = group;
+	}
 
 	public String getId() {
 		return id;

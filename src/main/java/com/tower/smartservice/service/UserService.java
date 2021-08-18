@@ -12,6 +12,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -85,10 +86,10 @@ public class UserService extends BaseService {
 				.map(user -> {
 					boolean isFollow =
 							// 这个人是否是我自己
-							user.getId().equals(self.getId())
+							self.getId().equals(user.getId())
 									|| contacts.stream().anyMatch(contactUser -> {
 										// 或者是我已关注的人
-										return contactUser.getId().equals(user.getId());
+										return Objects.equals(contactUser.getId(), user.getId());
 									}
 							);
 					return new UserCard(user, isFollow);

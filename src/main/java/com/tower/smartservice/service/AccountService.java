@@ -129,6 +129,7 @@ public class AccountService extends BaseService {
 	 * @param pushId PushId
 	 * @return ResponseModel AccountRspModel
 	 */
+	@Nonnull
 	private ResponseModel bind(@Nonnull UserEntity self, String pushId) {
 		// 进行PushId绑定的操作
 		UserEntity user = UserFactory.bindPushId(self, pushId);

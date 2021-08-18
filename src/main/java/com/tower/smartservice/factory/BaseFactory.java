@@ -6,7 +6,7 @@ package com.tower.smartservice.factory;
  * @author zpsong-tower <pingzisong2012@gmail.com>
  * @since 2021/7/7 18:27
  */
-public class BaseFactory {
+public abstract class BaseFactory {
 	/**
 	 * 唯一结果的查询结果上限
 	 */

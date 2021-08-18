@@ -198,8 +198,8 @@ public class UserFactory extends BaseFactory {
 	 * @return UserEntity
 	 */
 	@Nullable
-	public static UserEntity bindPushId(@Nonnull UserEntity user, String pushId) {
-		if (TextUtil.isEmpty(pushId)) {
+	public static UserEntity bindPushId(UserEntity user, String pushId) {
+		if (user == null || TextUtil.isEmpty(pushId)) {
 			return null;
 		}
 		if (pushId.equals(user.getPushId())) {
